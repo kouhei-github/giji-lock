@@ -1,0 +1,43 @@
+version: "3"
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    command: php artisan serve --host=0.0.0.0
+    volumes:
+      - ./src:/var/www/laravel
+    working_dir: /var/www/laravel
+    ports:
+      - "80:8000"
+    depends_on:
+      - db
+
+  db:
+    image:  mysql:5.7
+    container_name: giji_lock_mysql
+    environment:
+      MYSQL_DATABASE: giji_lock
+      MYSQL_USER: teslaBot
+      MYSQL_PASSWORD: gatebYTGGGra567
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./Docker/db/data:/var/lib/mysql
+      - ./Docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./Docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: youtube-interview-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=giji_lock_mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "8082:80"
