@@ -37,7 +37,8 @@ class UserFactory extends Factory
             'password' => Hash::make("password"),
             'remember_token' => Str::random(10),
             'post_id' => $postId,
-            'group_id' => $groupId
+            'group_id' => $groupId,
+            'roll' => random_int(1,2),
         ];
     }
 
