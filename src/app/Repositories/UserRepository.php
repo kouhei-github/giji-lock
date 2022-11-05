@@ -99,7 +99,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getInfoUsingPagination(int $pageNation): array
     {
-        $user = $this->user::with("group")->paginate(20, ['*'], 'page', $pageNation);;
+        $user = $this->user::with("group")->paginate(20, ['*'], 'page', $pageNation);
         if (count($user) === 0) {
             throw new \Exception( "Userが一人も入っていません");
         }

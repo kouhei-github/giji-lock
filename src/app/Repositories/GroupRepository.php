@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 
+use App\Domains\GroupDomain;
 use App\Models\Group;
+use App\Repositories\Interfaces\GroupRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class GroupRepository
+class GroupRepository implements GroupRepositoryInterface
 {
     private Group $group;
     public function __construct(Group $group)
@@ -15,14 +17,40 @@ class GroupRepository
         $this->group = $group;
     }
 
-    public function save(): void
+    /**
+     * 所属グループのデータを保存する
+     * @param GroupDomain $groupDomain
+     * @return void
+     */
+    public function save(GroupDomain $groupDomain): void
     {
-        //
+        $group = [
+            "name" => $groupDomain->getName(),
+        ];
+        $this->group::insert($group);
     }
 
-    public function update(): void
+    /**
+     * 所属グループの更新
+     * @param GroupDomain $groupDomain
+     * @param Collection|Group $group
+     * @return void
+     */
+    public function update(GroupDomain $groupDomain, Collection|Group $group): void
     {
-        //
+        $group->name = $groupDomain->getName();
+        $group->update();
+    }
+
+    /**
+     * 所属グループの削除
+     * @param int $groupId
+     * @return void
+     */
+    public function delete(int $groupId): void
+    {
+        $group = $this->group->find($groupId);
+        $group->delete();
     }
 
     /**
@@ -32,7 +60,7 @@ class GroupRepository
      */
     public function findById(int $groupId): Group|Collection|Model
     {
-        $group = $this->group->find(1);
+        $group = $this->group->find($groupId);
         if (is_null($group)) {
             throw new \Exception($groupId . ": group_idが存在しません");
         }

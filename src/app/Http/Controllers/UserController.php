@@ -17,8 +17,8 @@ class UserController extends Controller
     private UpdateUserUseCaseInterface $updateUserUseCase;
     private DeleteUserUseCaseInterface $deleteUserUseCase;
     public function __construct(
-        GetUserUseCaseInterface $getUserUseCase,
-        PostUserUseCaseInterface $postUserUseCase,
+        GetUserUseCaseInterface    $getUserUseCase,
+        PostUserUseCaseInterface   $postUserUseCase,
         UpdateUserUseCaseInterface $updateUserUseCase,
         DeleteUserUseCaseInterface $deleteUserUseCase,
     ) {

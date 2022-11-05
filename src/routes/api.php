@@ -26,13 +26,13 @@ Route::match(
 
 Route::match(
     ['post', "put", "delete"],
-    'api/v1/post',
+    'v1/post',
     [\App\Http\Controllers\PostController::class, 'switchHttpRequest']
 );
 
 Route::match(
     ['post', "put", "delete"],
-    'api/v1/group',
+    'v1/group',
     [\App\Http\Controllers\GroupController::class, 'switchHttpRequest']
 );
 

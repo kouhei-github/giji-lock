@@ -22,14 +22,9 @@ class UserDomain
         $this->password = Hash::make($password);
 
         // グループのIDの配列の作成
-        $groups = Group::get("id");
-        $groupIds = [];
-        foreach ($groups as $group) {
-            $groupIds[] = $group["id"];
-        }
-
+        $exist = $this->existInGroup($groupId);
         // グループIDのバリデーション
-        if (!in_array($groupId, $groupIds)) {
+        if (!$exist) {
             throw new \Exception($groupId . " はグループIDに存在しません。");
         }
         $this->gropuId = $groupId;
@@ -39,6 +34,21 @@ class UserDomain
             throw new \Exception($groupId . " rollは1=>管理者, 2 => ユーザーで登録して下さい");
         }
         $this->roll    = $roll;
+    }
+
+    /**
+     * group_idがgroupsテーブルに存在するか確認
+     * @param int $groupId
+     * @return bool
+     */
+    private function existInGroup(int $groupId): bool
+    {
+        $exist = true;
+        $group = Group::find($groupId);
+        if(is_null($group)){
+            $exist = false;
+        }
+        return $exist;
     }
 
     /**

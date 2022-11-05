@@ -2,6 +2,8 @@
 
 namespace App\UseCases\Interfaces;
 
+use Illuminate\Http\Request;
+
 /**
  * App\UseCases;
  */
@@ -9,5 +11,9 @@ namespace App\UseCases\Interfaces;
 
 interface DeleteGroupUseCaseInterface
 {
-    // public function XXX
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function handle(Request $request): void;
 }

@@ -7,13 +7,6 @@ use App\UseCases\Interfaces\GetGroupUseCaseInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
-/**
- * App\UseCases\App\UseCase;
- */
-
-/**
- * class GetGroupUseCase implements GetGroupUseCaseInterface
- */
 
 class GetGroupUseCase implements GetGroupUseCaseInterface
 {
@@ -31,8 +24,6 @@ class GetGroupUseCase implements GetGroupUseCaseInterface
     public function handle(Request $request): array|Collection
     {
         $groupId = $request->query("id");
-
-
         if (!is_null($groupId) ) {
             $group = $this->groupRepository->findById((int)$groupId);
             return $group->toArray();

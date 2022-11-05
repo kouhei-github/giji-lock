@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Domains\GroupDomain;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -42,4 +43,26 @@ interface GroupRepositoryInterface
      * @throws \Exception
      */
     public function getAll(): Collection;
+
+    /**
+     * 所属グループのデータを保存する
+     * @param GroupDomain $groupDomain
+     * @return void
+     */
+    public function save(GroupDomain $groupDomain): void;
+
+    /**
+     * 所属グループの更新
+     * @param GroupDomain $groupDomain
+     * @param Collection|Group $group
+     * @return void
+     */
+    public function update(GroupDomain $groupDomain, Collection|Group $group): void;
+
+    /**
+     * 所属グループの削除
+     * @param int $groupId
+     * @return void
+     */
+    public function delete(int $groupId): void;
 }
