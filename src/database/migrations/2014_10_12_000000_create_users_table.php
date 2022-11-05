@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('group_id')->constrained('groups');
-            $table->foreignId('post_id')->constrained('posts');
             $table->integer('roll'); //1->管理者, 2->ユーザー
             $table->rememberToken();
             $table->timestamps();

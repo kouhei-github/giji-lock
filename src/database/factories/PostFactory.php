@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,9 +26,15 @@ class PostFactory extends Factory
 
 //      Contentの生成
         $content = $this->faker->realText(512);
+
+        //      post_idのランダム取得
+        $users           = User::all();
+        $randomUserIndex = random_int(0, count($users)-1);
+        $userId          = $users[$randomUserIndex]->id;
         return [
-            "title" => $title,
-            "content" => $content
+            "title"   => $title,
+            "content" => $content,
+            "user_id" => $userId
         ];
     }
 }

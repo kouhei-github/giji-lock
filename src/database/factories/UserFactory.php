@@ -21,22 +21,17 @@ class UserFactory extends Factory
     {
         $name  = $this->faker->name;
         $email = $this->faker->unique()->safeEmail();
-//      post_idのランダム取得
+//      group_idのランダム取得
         $groups           = Group::all();
         $randomGroupIndex = random_int(0, count($groups)-1);
         $groupId          = $groups[$randomGroupIndex]->id;
 
-//      group_idのランダム取得
-        $posts           = Group::all();
-        $randomPostIndex = random_int(0, count($posts)-1);
-        $postId          = $posts[$randomPostIndex]->id;
         return [
             'name' => $name,
             'email' => $email,
             'email_verified_at' => now(),
             'password' => Hash::make("password"),
             'remember_token' => Str::random(10),
-            'post_id' => $postId,
             'group_id' => $groupId,
             'roll' => random_int(1,2),
         ];

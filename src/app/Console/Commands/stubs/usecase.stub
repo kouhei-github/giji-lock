@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace;
+
+/**
+ * DummyRootNamespaceUseCases\DummyRootNamespaceUseCase;
+ */
+
+/**
+ * class DummyClass implements DummyClassInterface
+ */
+
+class DummyClass
+{
+    public function handle()
+    {
+        //
+    }
+}

@@ -1,0 +1,24 @@
+<?php
+
+namespace DummyNamespace;
+
+/**
+ * class DummyClass extends Service
+ */
+
+ /**
+ * class DummyClass implements DummyClassInterface
+ */
+
+class DummyClass
+{
+    public function __construct()
+    {
+      //
+    }
+
+    public function handle()
+    {
+      //
+    }
+}

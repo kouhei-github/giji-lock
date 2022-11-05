@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+/**
+ * DummyRootNamespaceUseCases;
+ */
+
+
+interface DummyClass
+{
+    // public function XXX
+}

@@ -1,0 +1,29 @@
+<?php
+
+namespace DummyNamespace;
+
+/**
+ * DummyRootNamespaceRepositories\Repository;
+ */
+
+/**
+ * class DummyClass implements DummyClassInterface
+ */
+
+class DummyClass
+{
+    public function save(): void
+    {
+        //
+    }
+
+    public function update(): void
+    {
+        //
+    }
+
+    public function find()
+    {
+        //
+    }
+}
