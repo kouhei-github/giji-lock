@@ -35,6 +35,10 @@ class GroupController extends Controller
      */
     public function switchHttpRequest(Request $request): JsonResponse
     {
+        $loginUser = $request->user();
+        if($loginUser->roll !== 999){
+            return response()->json(["message" => "権限不足です"], 419);
+        }
         $httpMethod = $request->method();
         switch ($httpMethod){
             case "GET":

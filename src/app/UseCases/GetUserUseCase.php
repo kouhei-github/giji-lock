@@ -23,15 +23,20 @@ class GetUserUseCase implements GetUserUseCaseInterface
      */
     public function handle(Request $request): array
     {
+        // 所属グループのユーザー一覧取得
+        $loginUser = $request->user();
+        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+
+        // 検索
         $userId = $request->query("id");
         if (!is_null($userId) ) {
-            $user = $this->userRepository->findById((int)$userId);
+            $user = $this->userRepository->findById((int)$userId, $users);
             return $user->toArray();
         }
         $pageNation = $request->query("page");
         if (!is_null($pageNation) ) {
-            return $this->userRepository->getInfoUsingPagination((int)$pageNation);
+            return $this->userRepository->getInfoUsingPagination((int)$pageNation, $users);
         }
-        return $this->userRepository->getAll();
+        return $this->userRepository->getAll($users);
     }
 }

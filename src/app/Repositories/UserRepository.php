@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Domains\UserDomain;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,14 +25,13 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserDomain $userDomain): void
     {
-        $user = [
-            "name"     => $userDomain->getName(),
-            "email"    => $userDomain->getEmail(),
-            "password" => $userDomain->getPassword(),
-            "group_id" => $userDomain->getGropuId(),
-            "roll"     => $userDomain->getRoll(),
-        ];
-        $this->user::insert($user);
+        $this->user->name   = $userDomain->getName();
+        $this->user->email = $userDomain->getEmail();
+        $this->user->password = $userDomain->getPassword();
+        $this->user->group_id = $userDomain->getGropuId();
+        $this->user->roll = $userDomain->getRoll();
+
+        $this->user->save();
     }
 
     /**
@@ -53,12 +53,15 @@ class UserRepository implements UserRepositoryInterface
     /**
      * idで検索をかけてUser情報を取得する
      * @param int $userId
+     * @param array $users
      * @return Collection|Model
      * @throws \Exception
      */
-    public function findById(int $userId): Collection|Model
+    public function findById(int $userId, array $users): Collection|Model
     {
-        $user = $this->user->with("group")->find($userId);
+        $user = $this->user->with("group")
+            ->find($users)
+            ->find($userId);
         if (is_null($user)) {
             throw new \Exception($userId . ": user_idが存在しません");
         }
@@ -66,48 +69,78 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * 所属グループのUser一覧の取得
+     * @param int $groupId
+     * @return array
+     */
+    public function findByGroup(int $groupId): array
+    {
+        return $this->user->where("group_id", "=", $groupId)
+            ->pluck('id')
+            ->toArray();
+    }
+
+    /**
+     * メールアドレスを使用してUserを検索する
+     * @param string $email
+     * @return User|Builder|Model
+     */
+    public function findByEmail(string $email): User|Builder|Model
+    {
+        return $this->user->where('email', '=', $email)
+            ->firstOrFail();
+    }
+
+    /**
+     * アクセストークンを発行する
+     * @param string $email
+     * @return string
+     */
+    public function createAccessToken(string $email): string
+    {
+        $user = $this->user->where('email', '=', $email)->firstOrFail();
+        return $user->createToken('auth_token')->plainTextToken;
+    }
+
+    /**
      * Userを削除する
      * @param int $userId
+     * @param array $users
      * @return void
      */
-    public function delete(int $userId)
+    public function delete(int $userId, array $users): void
     {
-        $user = $this->user->find($userId);
+        $user = $this->user
+            ->find($users)
+            ->find($userId);
         $user->delete();
     }
 
     /**
      * ユーザー情報を全て取得する
+     * @param array $users
      * @return array
-     * @throws \Exception
      */
-    public function getAll(): array
+    public function getAll(array $users): array
     {
-        $user = $this->user::with("group")->get();
-        if (count($user) === 0) {
-            throw new \Exception( "Userが一人も入っていません");
-        }
+        $user = $this->user::with("group")
+            ->findMany($users);
+
         return $user->toArray();
     }
-
 
     /**
      * User情報をpagenationして取得する
      * @param int $pageNation
+     * @param array $users
      * @return array
-     * @throws \Exception
      */
-    public function getInfoUsingPagination(int $pageNation): array
+    public function getInfoUsingPagination(int $pageNation, array $users): array
     {
-        $user = $this->user::with("group")->paginate(20, ['*'], 'page', $pageNation);
-        if (count($user) === 0) {
-            throw new \Exception( "Userが一人も入っていません");
-        }
-        return $user->toArray();
-    }
+        $user = $this->user::with("group")
+            ->whereIn("id", $users)
+            ->paginate(20, ['*'], 'page', $pageNation);
 
-    public function findByEmail()
-    {
-        //
+        return $user->toArray();
     }
 }

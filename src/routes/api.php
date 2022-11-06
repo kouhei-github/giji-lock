@@ -19,20 +19,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::match(
-    ['post', "put", "delete"],
+    ['get', 'post', "put", "delete"],
     'v1/user',
     [\App\Http\Controllers\UserController::class, 'switchHttpRequest']
-);
+)->middleware('auth:sanctum');
 
 Route::match(
-    ['post', "put", "delete"],
+    ['get', 'post', "put", "delete"],
     'v1/post',
     [\App\Http\Controllers\PostController::class, 'switchHttpRequest']
-);
+)->middleware('auth:sanctum');
 
 Route::match(
-    ['post', "put", "delete"],
+    ['get', 'post', "put", "delete"],
     'v1/group',
     [\App\Http\Controllers\GroupController::class, 'switchHttpRequest']
-);
+)->middleware('auth:sanctum');
 
+Route::post(
+    'v1/login',
+    [\App\Http\Controllers\AuthController::class, 'login']
+);

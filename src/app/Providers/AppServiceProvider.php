@@ -8,12 +8,14 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
+use App\UseCases\AuthUseCase;
 use App\UseCases\DeleteGroupUseCase;
 use App\UseCases\DeletePostUseCase;
 use App\UseCases\DeleteUserUseCase;
 use App\UseCases\GetGroupUseCase;
 use App\UseCases\GetPostUseCase;
 use App\UseCases\GetUserUseCase;
+use App\UseCases\Interfaces\AuthUseCaseInterface;
 use App\UseCases\Interfaces\DeleteGroupUseCaseInterface;
 use App\UseCases\Interfaces\DeletePostUseCaseInterface;
 use App\UseCases\Interfaces\DeleteUserUseCaseInterface;
@@ -120,6 +122,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DeletePostUseCaseInterface::class,
             DeletePostUseCase::class
+        );
+
+        $this->app->bind(
+            AuthUseCaseInterface::class,
+            AuthUseCase::class
         );
     }
 

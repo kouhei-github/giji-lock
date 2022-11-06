@@ -16,21 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::match(
-    ['get'],
-    'api/v1/user',
-    [\App\Http\Controllers\UserController::class, 'switchHttpRequest']
-);
-
-Route::match(
-    ['get'],
-    'api/v1/post',
-    [\App\Http\Controllers\PostController::class, 'switchHttpRequest']
-);
-
-Route::match(
-    ['get'],
-    'api/v1/group',
-    [\App\Http\Controllers\GroupController::class, 'switchHttpRequest']
-);

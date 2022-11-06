@@ -25,12 +25,11 @@ class PostRepository implements PostRepositoryInterface
      */
     public function save(PostDomain $postDomain): void
     {
-        $post = [
-            "title"   => $postDomain->getTitle(),
-            "content" => $postDomain->getContent(),
-            "user_id" => $postDomain->getUserId(),
-        ];
-        $this->post::insert($post);
+        $this->post->title   = $postDomain->getTitle();
+        $this->post->content = $postDomain->getContent();
+        $this->post->user_id = $postDomain->getUserId();
+
+        $this->post->save();
     }
 
     /**
@@ -50,23 +49,33 @@ class PostRepository implements PostRepositoryInterface
     /**
      * 投稿の削除
      * @param int $postId
+     * @param array $users
      * @return void
+     * @throws \Exception
      */
-    public function delete(int $postId): void
+    public function delete(int $postId, array $users): void
     {
-        $post = $this->post->find($postId);
+        $post = $this->post
+            ->whereIn("user_id", $users)
+            ->find($postId);
+        if(is_null($post)){
+            throw new \Exception("post_id: ".$postId . " 投稿が存在しません");
+        }
         $post->delete();
     }
 
     /**
      * IDを使用して投稿を絞る
      * @param int $postId
+     * @param array $users
      * @return Builder|Collection|Model
      * @throws \Exception
      */
-    public function findById(int $postId): Builder|Collection|Model
+    public function findById(int $postId, array $users): Builder|Collection|Model
     {
-        $post = $this->post->with("user")->find($postId);
+        $post = $this->post->with("user")
+            ->whereIn("user_id", $users)
+            ->find($postId);
         if (is_null($post)) {
             throw new \Exception($postId . ": post_idが存在しません");
         }
@@ -74,31 +83,77 @@ class PostRepository implements PostRepositoryInterface
     }
 
     /**
+     * タイトルとページネーションで取得
+     * @param string $title
+     * @param int $pageNation
+     * @param array $users
+     * @return array
+     */
+    public function findByTitle(string $title, int $pageNation, array $users): array
+    {
+        return $this->post->with("user")
+                            ->whereIn("user_id", $users)
+                            ->where("title", "like", "%". $title ."%")
+                            ->paginate(20, ['*'], 'page', $pageNation)
+                            ->toArray();
+    }
+
+    /**
      * 投稿データをページネーションで取得
      * @param int $pageNation
+     * @param array $users
      * @return array
-     * @throws \Exception
      */
-    public function getWithUserUsingPageNation(int $pageNation): array
+    public function getWithUserUsingPageNation(int $pageNation, array $users): array
     {
-        $post = $this->post->with("user")->paginate(20, ['*'], 'page', $pageNation);
-        if (count($post) === 0) {
-            throw new \Exception( "投稿がありません");
-        }
+        $post = $this->post->with("user")
+            ->whereIn("user_id", $users)
+            ->paginate(20, ['*'], 'page', $pageNation);
+
         return $post->toArray();
     }
 
     /**
-     * 投稿データを全て取得する
+     * ユーザーIDで投稿の検索
+     * @param int $userId
+     * @param int $pageNation
      * @return array
-     * @throws \Exception
      */
-    public function getAll(): array
+    public function findByUserId(int $userId, int $pageNation): array
     {
-        $post = $this->post::with("user")->get();
-        if (count($post) === 0) {
-            throw new \Exception( "投稿がありません");
-        }
+        return $this->post->with("user")
+            ->where("user_id", "=", $userId)
+            ->paginate(20, ['*'], 'page', $pageNation)
+            ->toArray();
+    }
+
+
+    /**
+     * 所属グループの最新の投稿を10個取得する
+     * @param array $users
+     * @return array
+     */
+    public function findByLatest(array $users): array
+    {
+        return $this->post->with("user")
+            ->whereIn("user_id", $users)
+            ->orderBy('id', 'DESC')
+            ->take(10)
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * 投稿データを全て取得する
+     * @param array $users
+     * @return array
+     */
+    public function getAll(array $users): array
+    {
+        $post = $this->post::with("user")
+            ->whereIn("user_id", $users)
+            ->get();
+
         return $post->toArray();
     }
 }

@@ -24,11 +24,14 @@ class PostUserUseCase implements PostUserUseCaseInterface
      */
     public function handle(Request $request)
     {
+        // ログインユーザー
+        $loginUser = $request->user();
+
         $body = $request->all();
         $userDomain = new UserDomain(
             $body["name"],
             $body["email"],
-            $body["group_id"],
+            $loginUser->group_id,
             $body["roll"],
             $body["password"]
         );

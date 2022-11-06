@@ -24,13 +24,17 @@ class UpdateUserUseCase implements UpdateUserUseCaseInterface
      */
     public function handle(Request $request): void
     {
+        // 所属グループのユーザー一覧取得
+        $loginUser = $request->user();
+        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+
         $body       = $request->all();
         $userId     = $body["id"];
-        $user       = $this->userRepository->findById($userId);
+        $user       = $this->userRepository->findById($userId, $users);
         $userDomain = new UserDomain(
             $body["name"],
             $body["email"],
-            $body["group_id"],
+            $loginUser->group_id,
             $body["roll"],
             $body["password"]
         );

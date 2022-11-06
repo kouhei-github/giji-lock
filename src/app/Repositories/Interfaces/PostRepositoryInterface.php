@@ -19,25 +19,26 @@ interface PostRepositoryInterface
     /**
      * 投稿データをページネーションで取得
      * @param int $pageNation
+     * @param array $users
      * @return array
-     * @throws \Exception
      */
-    public function getWithUserUsingPageNation(int $pageNation): array;
+    public function getWithUserUsingPageNation(int $pageNation, array $users): array;
 
     /**
      * 投稿データを全て取得する
+     * @param array $users
      * @return array
-     * @throws \Exception
      */
-    public function getAll(): array;
+    public function getAll(array $users): array;
 
     /**
      * IDを使用して投稿を絞る
      * @param int $postId
+     * @param array $users
      * @return Builder|Collection|Model
      * @throws \Exception
      */
-    public function findById(int $postId): Builder|Collection|Model;
+    public function findById(int $postId, array $users): Builder|Collection|Model;
 
     /**
      * 投稿情報を保存する
@@ -57,7 +58,33 @@ interface PostRepositoryInterface
     /**
      * 投稿の削除
      * @param int $postId
+     * @param array $users
      * @return void
+     * @throws \Exception
      */
-    public function delete(int $postId): void;
+    public function delete(int $postId, array $users): void;
+
+    /**
+     * タイトルとページネーションで取得
+     * @param string $title
+     * @param int $pageNation
+     * @param array $users
+     * @return array
+     */
+    public function findByTitle(string $title, int $pageNation, array $users): array;
+
+    /**
+     * ユーザーIDで投稿の検索
+     * @param int $userId
+     * @param int $pageNation
+     * @return array
+     */
+    public function findByUserId(int $userId, int $pageNation): array;
+
+    /**
+     * 所属グループの最新の投稿を10個取得する
+     * @param array $users
+     * @return array
+     */
+    public function findByLatest(array $users): array;
 }

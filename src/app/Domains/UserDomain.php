@@ -30,7 +30,7 @@ class UserDomain
         $this->gropuId = $groupId;
 
         // rollのIDの確認
-        if (!in_array($roll, [1, 2])) {
+        if (!in_array($roll, [1, 2, 999])) {
             throw new \Exception($groupId . " rollは1=>管理者, 2 => ユーザーで登録して下さい");
         }
         $this->roll    = $roll;

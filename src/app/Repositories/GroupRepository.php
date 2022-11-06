@@ -24,10 +24,8 @@ class GroupRepository implements GroupRepositoryInterface
      */
     public function save(GroupDomain $groupDomain): void
     {
-        $group = [
-            "name" => $groupDomain->getName(),
-        ];
-        $this->group::insert($group);
+        $this->group->name = $groupDomain->getName();
+        $this->group->save();
     }
 
     /**

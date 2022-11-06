@@ -22,7 +22,11 @@ class DeleteUserUseCase implements DeleteUserUseCaseInterface
      */
     public function handle(Request $request)
     {
+        // 所属グループのユーザー一覧取得
+        $loginUser = $request->user();
+        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+
         $user = $request->all();
-        $this->userRepository->delete($user["id"]);
+        $this->userRepository->delete($user["id"], $users);
     }
 }
