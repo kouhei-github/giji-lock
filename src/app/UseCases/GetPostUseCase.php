@@ -37,6 +37,18 @@ class GetPostUseCase implements GetPostUseCaseInterface
             return $post->toArray();
         }
 
+        // 日付で投稿の検索
+        $date = $request->query("date");
+        if (!is_null($date) ) {
+            return $this->postRepository->findByCreatedAt($date, $users);
+        }
+
+        // 最新の記事10件の取得
+        $latest = $request->query("latest");
+        if (!is_null($latest) ) {
+            return $this->postRepository->findByLatest($users);
+        }
+
         // タイトルとページネーションで検索
         $pageNation = $request->query("page");
         $title = $request->query("title");

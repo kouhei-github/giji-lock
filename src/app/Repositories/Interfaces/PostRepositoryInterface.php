@@ -87,4 +87,12 @@ interface PostRepositoryInterface
      * @return array
      */
     public function findByLatest(array $users): array;
+
+    /**
+     * 日付で検索
+     * @param string $time 2018-08-03
+     * @param array $users
+     * @return array
+     */
+    public function findByCreatedAt(string $time, array $users): array;
 }

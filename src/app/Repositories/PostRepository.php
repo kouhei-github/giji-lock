@@ -144,6 +144,21 @@ class PostRepository implements PostRepositoryInterface
     }
 
     /**
+     * 日付で検索
+     * @param string $time 2018-08-03
+     * @param array $users
+     * @return array
+     */
+    public function findByCreatedAt(string $time, array $users): array
+    {
+        return $this->post->with("user")
+            ->whereIn("user_id", $users)
+            ->whereDate('created_at', '=', $time)
+            ->get()
+            ->toArray();
+    }
+
+    /**
      * 投稿データを全て取得する
      * @param array $users
      * @return array
@@ -153,7 +168,6 @@ class PostRepository implements PostRepositoryInterface
         $post = $this->post::with("user")
             ->whereIn("user_id", $users)
             ->get();
-
         return $post->toArray();
     }
 }
