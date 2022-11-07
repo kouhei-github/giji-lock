@@ -92,10 +92,10 @@ class PostRepository implements PostRepositoryInterface
     public function findByTitle(string $title, int $pageNation, array $users): array
     {
         return $this->post->with("user")
-                            ->whereIn("user_id", $users)
-                            ->where("title", "like", "%". $title ."%")
-                            ->paginate(20, ['*'], 'page', $pageNation)
-                            ->toArray();
+                    ->whereIn("user_id", $users)
+                    ->where("title", "like", "%". $title ."%")
+                    ->paginate(20, ['*'], 'page', $pageNation)
+                    ->toArray();
     }
 
     /**
@@ -106,11 +106,10 @@ class PostRepository implements PostRepositoryInterface
      */
     public function getWithUserUsingPageNation(int $pageNation, array $users): array
     {
-        $post = $this->post->with("user")
+        return $this->post->with("user")
             ->whereIn("user_id", $users)
-            ->paginate(20, ['*'], 'page', $pageNation);
-
-        return $post->toArray();
+            ->paginate(20, ['*'], 'page', $pageNation)
+            ->toArray();
     }
 
     /**
@@ -165,9 +164,9 @@ class PostRepository implements PostRepositoryInterface
      */
     public function getAll(array $users): array
     {
-        $post = $this->post::with("user")
+        return $this->post::with("user")
             ->whereIn("user_id", $users)
-            ->get();
-        return $post->toArray();
+            ->get()
+            ->toArray();
     }
 }

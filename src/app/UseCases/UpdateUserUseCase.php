@@ -26,8 +26,9 @@ class UpdateUserUseCase implements UpdateUserUseCaseInterface
     {
         // 所属グループのユーザー一覧取得
         $loginUser = $request->user();
-        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+        $users     = $this->userRepository->findByGroup((int)$loginUser->group_id);
 
+        // 更新する処理
         $body       = $request->all();
         $userId     = $body["id"];
         $user       = $this->userRepository->findById($userId, $users);

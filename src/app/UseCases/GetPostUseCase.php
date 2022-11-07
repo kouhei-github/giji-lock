@@ -2,18 +2,18 @@
 
 namespace App\UseCases;
 
+use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Repositories\PostRepository;
 use App\UseCases\Interfaces\GetPostUseCaseInterface;
 use Illuminate\Http\Request;
 
 
 class GetPostUseCase implements GetPostUseCaseInterface
 {
-    private PostRepository $postRepository;
+    private PostRepositoryInterface $postRepository;
     private UserRepositoryInterface $userRepository;
     public function __construct(
-        PostRepository          $postRepository,
+        PostRepositoryInterface $postRepository,
         UserRepositoryInterface $userRepository
     ) {
         $this->postRepository = $postRepository;
@@ -29,7 +29,7 @@ class GetPostUseCase implements GetPostUseCaseInterface
     public function handle(Request $request): array
     {
         $loginUser = $request->user();
-        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+        $users     = $this->userRepository->findByGroup((int)$loginUser->group_id);
         // IDで検索
         $postId = $request->query("id");
         if (!is_null($postId) ) {

@@ -26,12 +26,13 @@ class DeletePostUseCase implements DeletePostUseCaseInterface
      * @return void
      * @throws \Exception
      */
-    public function handle(Request $request)
+    public function handle(Request $request): void
     {
         // 所属の同じユーザー一覧の取得
         $loginUser = $request->user();
-        $users = $this->userRepository->findByGroup((int)$loginUser->group_id);
+        $users     = $this->userRepository->findByGroup((int)$loginUser->group_id);
 
+        // 投稿を削除
         $body   = $request->all();
         $postId = $body["id"];
         $this->postRepository->delete($postId, $users);

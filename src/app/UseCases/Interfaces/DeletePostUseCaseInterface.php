@@ -11,6 +11,7 @@ interface DeletePostUseCaseInterface
      * 投稿の削除のハンドラー
      * @param Request $request
      * @return void
+     * @throws \Exception
      */
-    public function handle(Request $request);
+    public function handle(Request $request): void;
 }

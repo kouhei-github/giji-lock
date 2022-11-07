@@ -22,12 +22,13 @@ class PostUserUseCase implements PostUserUseCaseInterface
      * @return void
      * @throws \Exception
      */
-    public function handle(Request $request)
+    public function handle(Request $request): void
     {
         // ログインユーザー
         $loginUser = $request->user();
 
-        $body = $request->all();
+        // 保存する処理
+        $body       = $request->all();
         $userDomain = new UserDomain(
             $body["name"],
             $body["email"],

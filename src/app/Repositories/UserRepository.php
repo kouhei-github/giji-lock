@@ -25,11 +25,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserDomain $userDomain): void
     {
-        $this->user->name   = $userDomain->getName();
-        $this->user->email = $userDomain->getEmail();
+        $this->user->name     = $userDomain->getName();
+        $this->user->email    = $userDomain->getEmail();
         $this->user->password = $userDomain->getPassword();
         $this->user->group_id = $userDomain->getGropuId();
-        $this->user->roll = $userDomain->getRoll();
+        $this->user->roll     = $userDomain->getRoll();
 
         $this->user->save();
     }
@@ -123,10 +123,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAll(array $users): array
     {
-        $user = $this->user::with("group")
-            ->findMany($users);
-
-        return $user->toArray();
+        return $this->user::with("group")
+            ->findMany($users)
+            ->toArray();
     }
 
     /**
@@ -137,10 +136,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getInfoUsingPagination(int $pageNation, array $users): array
     {
-        $user = $this->user::with("group")
+        return $this->user::with("group")
             ->whereIn("id", $users)
-            ->paginate(20, ['*'], 'page', $pageNation);
-
-        return $user->toArray();
+            ->paginate(20, ['*'], 'page', $pageNation)
+            ->toArray();
     }
 }

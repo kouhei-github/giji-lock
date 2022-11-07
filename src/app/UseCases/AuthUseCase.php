@@ -34,8 +34,8 @@ class AuthUseCase implements AuthUseCaseInterface
         $token = $this->userRepository->createAccessToken($request['email']);
         return [
             'access_token' => $token,
-            'token_type' => 'Bearer',
-            "status" => 201
+            'token_type'   => 'Bearer',
+            "status"       => 201
         ];
 
     }

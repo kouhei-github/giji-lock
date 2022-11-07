@@ -8,7 +8,7 @@ class PostDomain
 {
     private string $title;
     private string $content;
-    private int $userId;
+    private int    $userId;
     public function __construct(string $title, string $content, int $userId)
     {
         $this->title   =$title;

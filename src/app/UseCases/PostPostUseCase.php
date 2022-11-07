@@ -27,7 +27,8 @@ class PostPostUseCase implements PostPostUseCaseInterface
         // 所属グループのユーザー一覧取得
         $loginUser = $request->user();
 
-        $body = $request->all();
+        // 保存する処理
+        $body       = $request->all();
         $postDomain = new PostDomain($body["title"], $body["content"], (int)$loginUser->id);
         $this->postRepository->save($postDomain);
     }

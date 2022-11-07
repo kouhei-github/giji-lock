@@ -20,7 +20,7 @@ class DeleteUserUseCase implements DeleteUserUseCaseInterface
      * @param Request $request
      * @return void
      */
-    public function handle(Request $request)
+    public function handle(Request $request): void
     {
         // 所属グループのユーザー一覧取得
         $loginUser = $request->user();
