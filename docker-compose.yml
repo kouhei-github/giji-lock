@@ -6,7 +6,7 @@ services:
       dockerfile: ./docker/php/Dockerfile
     command: php artisan serve --host=0.0.0.0
     volumes:
-      - ./src:/var/www/laravel
+      - ./laravel:/var/www/laravel
     working_dir: /var/www/laravel
     ports:
       - "80:8000"
@@ -32,7 +32,7 @@ services:
 
   # phpMyAdmin
   phpmyadmin:
-    container_name: giji-lock-phpmyadmin
+    container_name: nextjs-phpmyadmin
     image: phpmyadmin/phpmyadmin
     environment:
       - PMA_ARBITRARY=1
