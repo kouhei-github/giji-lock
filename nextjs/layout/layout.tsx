@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { ReactElement } from "react";
+import SideBar from "../components/SideBar";
 
 type LayoutProps = Required<{
     readonly children: ReactElement
@@ -13,8 +14,11 @@ type LayoutProps = Required<{
  */
 const Layout: NextPage<LayoutProps> = (props) => {
     return (
-        <div className={"bg-black text-white"}>
-            {props.children}
+        <div className={"flex"}>
+            <SideBar />
+            <div className={"w-3/4 mx-auto text-center"}>
+                {props.children}
+            </div>
         </div>
     )
 }

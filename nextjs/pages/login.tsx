@@ -1,6 +1,16 @@
 import {NextPage} from "next";
 import {Typewriter} from "react-simple-typewriter";
 
+/**
+ * レイアウトの切り替え
+ * 参考: https://imatomix.com/imatomix/notes/1591872503000
+ */
+export const getServerSideProps = async () => ({
+    props: {
+        layout: "" // 複数のレイアウトを切り替えたいときは 'MainLayout' などの文字列を用いる
+    }
+})
+
 const Login: NextPage = () => {
     return (
         <div className={"bg-black min-h-screen flex flex-col w-full items-center justify-center"}>
