@@ -14,10 +14,7 @@ export const getServerSideProps = async () => ({
 
 const Home: NextPage = () => {
     return (
-        <div className={"relative"}>
-            <Circle />
-            <div className={"absolute top-[360px] right-[370px] animate-spin"}>HOME</div>
-        </div>
+        <div className={""}>HOME</div>
     )
 }
 export default Home

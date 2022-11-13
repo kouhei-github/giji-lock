@@ -1,4 +1,5 @@
 import {NextPage} from "next";
+import Circle from "../components/Circle";
 
 /**
  * レイアウトの切り替え
@@ -6,13 +7,16 @@ import {NextPage} from "next";
  */
 export const getServerSideProps = async () => ({
     props: {
-        layout: "" // 複数のレイアウトを切り替えたいときは 'MainLayout' などの文字列を用いる
+        layout: "layout" // 複数のレイアウトを切り替えたいときは 'MainLayout' などの文字列を用いる
     }
 })
 
 const test: NextPage = () => {
     return (
-        <>signin</>
+        <div className={"relative"}>
+            <Circle />
+            <div className={"absolute top-[360px] right-[370px] animate-spin"}>TEST</div>
+        </div>
     )
 }
 

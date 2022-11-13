@@ -14,6 +14,12 @@ class QrCodeService implements QrCodeServiceInterface
         $this->qrcode = new QRCode();
     }
 
+    /**
+     * QRコードを生成する
+     * @param string $url
+     * @return void
+     * @throws \Exception
+     */
     public function createQrCode(string $url)
     {
         $isUrl = $this->regUrl($url);
