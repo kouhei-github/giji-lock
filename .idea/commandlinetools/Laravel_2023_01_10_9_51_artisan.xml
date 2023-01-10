@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<framework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schemas/frameworkDescriptionVersion1.1.4.xsd" frameworkId="com.laravel.component" name="Laravel_2022/11/02 17:01_artisan" invoke="db64ea86-3a93-4604-bc60-4c7736e00164 /var/www/laravel/artisan" alias="artisan" enabled="true" version="2">
+<framework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schemas/frameworkDescriptionVersion1.1.4.xsd" frameworkId="com.laravel.component" name="Laravel_2023/01/10 9:51_artisan" invoke="906e9ad8-da00-44af-b85c-5368431fcaa0 /var/www/laravel/artisan" alias="artisan" enabled="true" version="2">
   <extraData><![CDATA[version:3]]></extraData>
   <command>
     <name>_complete</name>

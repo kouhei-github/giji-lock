@@ -2,9 +2,9 @@
 
 namespace App\UseCases;
 
+use App\Http\Requests\LoginRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\UseCases\Interfaces\AuthUseCaseInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,11 +18,13 @@ class AuthUseCase implements AuthUseCaseInterface
 
     /**
      * アクセストークンを発行するハンドラー
-     * @param Request $request
+     * @param LoginRequest $request
      * @return array
      */
-    public function handle(Request $request): array
+    public function handle(LoginRequest $request): array
     {
+        $request->validated($request->all());
+
         $credentials = Auth::attempt($request->only('email', 'password'));
         if(!$credentials){
             return [

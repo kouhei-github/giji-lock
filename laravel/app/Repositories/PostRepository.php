@@ -108,7 +108,7 @@ class PostRepository implements PostRepositoryInterface
     {
         return $this->post->with("user")
             ->whereIn("user_id", $users)
-            ->paginate(20, ['*'], 'page', $pageNation)
+            ->paginate(2, ['*'], 'page', $pageNation)
             ->toArray();
     }
 
